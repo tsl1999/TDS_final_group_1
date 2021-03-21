@@ -1,0 +1,77 @@
+#some final safety checks
+# 1 nutrition score and lung cancer
+
+library(data.table)
+setwd('/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step2')
+data1<-readRDS("/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step1/combined_nutrition_code.rds")
+
+no_na_nu_age<-data
+data1$LungCancer<-ifelse(data1$LungCancer=="no",0,1)
+e<-glm(LungCancer~NutritionScore+age+sex+Smoking,data=data1,family="binomial")
+summary(e)#stats significant
+
+e<-lm(no_na_nu_age$NutritionScore~no_na_nu_age$LungCancer+no_na_nu_age$age+no_na_nu_age$sex+no_na_nu_age$Smoking)
+summary(e)#r squred 9%, significant, 
+#without smoking, still significant, 0.1%
+
+t.test(data1$NutritionScore,data1$LungCancer)#different in mean
+
+#2 nutrition score and prs
+
+cor(nutrition_prs$NutritionScore,nutrition_prs$prs,use="complete.obs")#-0.07, very low
+b<-lm(nutrition_prs$NutritionScore~.,data=nutrition_prs[,7:17])
+summary(b)#with pcs, r squred 2% ish, significant prs, f stats significant
+
+e<-lm(nutrition_prs$NutritionScore~ nutrition_prs$prs)
+summary(e)#significant prs, r squred 0.6%, f stats significant
+anova(b)
+
+# 3 nutrition score and BMI
+
+cor(nutrition_prs$NutritionScore,nutrition_prs$BMI,use="complete.obs")#-0.1
+e<-lm(no_na_nu_age$NutritionScore~no_na_nu_age$BMI+no_na_nu_age$age+no_na_nu_age$sex+no_na_nu_age$Smoking)
+summary(e)#adjust for smoking, 9%, not 1%
+#both are significant
+
+#prs and BMI
+
+cor(nutrition_prs$prs,nutrition_prs$BMI,use="complete.obs")#-0.003
+e<-lm(BMI~prs+.,data=nutrition_prs[,c(5,7:17)])
+summary(e)#stats significant but low r squred, with pcs, 0.6%
+
+#nutrition score and HDL cholesterol
+
+cor(nutrition_prs$HDL_Cholesterol,nutrition_prs$NutritionScore,use="complete.obs")#0.14
+e<-lm(no_na_nu_age$NutritionScore~no_na_nu_age$HDL_Cholesterol+no_na_nu_age$age+no_na_nu_age$sex+no_na_nu_age$Smoking)
+summary(e)#with smoking 9%, without 7%, stats significant
+
+#prs and HDL cholesterol
+
+cor(nutrition_prs$HDL_Cholesterol,nutrition_prs$prs,use="complete.obs")#0.016
+e<-lm(HDL_Cholesterol~prs+.,data=nutrition_prs[,c(6,17)])
+summary(e)#low r squred but stats significant prs
+
+#prs and lung cancer
+e<-glm(LungCancer~ prs+.,data=mr_prs[,c(2,6:16)],family="binomial")
+summary(e)#not significant
+boxplot(mr_prs$prs~mr_prs$LungCancer)
+t.test(mr_prs$prs,mr_prs$LungCancer)#significant mean difference
+
+#prs and other cancer
+#Breast
+e<-glm(BreastCancer~ prs+.,data=mr_prs[,c(5,6:16)],family="binomial")
+summary(e)#significant prs, with or without pcs
+e<-lm(prs~ BreastCancer+.,data=mr_prs[,c(5,6:16)])
+summary(e)
+
+t.test(mr_prs$prs,mr_prs$BreastCancer)#significant mean difference
+
+boxplot(mr_prs$prs~mr_prs$BreastCancer)
+
+#stomach
+e<-glm(StomachCancer~ prs+.,data=mr_prs[,c(4,6:16)],family="binomial")
+summary(e)#not significant
+e<-lm(prs~ StomachCancer+.,data=mr_prs[,c(4,6:16)])
+summary(e)
+boxplot(mr_prs$prs~mr_prs$StomachCancer)
+t.test(mr_prs$prs,mr_prs$StomachCancer)
