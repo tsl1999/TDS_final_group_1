@@ -1,5 +1,5 @@
 #prs construction
-setwd('/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step2')
+setwd('/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step2')
 #weight
 iv.clump<-readRDS("clump.rds")
 weight<-iv.clump[,c(2,7)]
@@ -7,12 +7,14 @@ gene_data<-readRDS("imp_clump_full_obs.rds")
 
 
 df <- gene_data %>% 
-  mutate_all(funs(case_when(. == 01 ~ '0',
+  mutate_all(funs(case_when(. == 01 ~ '2',
                             . == 02 ~ '1',
-                            . == 03 ~ '2',
-                            . == 00 ~ 'NA')))
+                            . == 03 ~ '0',
+                            . == 00 ~ 'NA')))#01 refers to homozygous minor alleles, make it to 2
 df[ df == "NA" ] <- NA
 df<-data.frame(df)
+
+
 
 
 #check for weight names and col names
@@ -68,10 +70,10 @@ sum(b)#the same as prs on the first row
 
 
 #prs and nutrition correlation check
-data<-readRDS("/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step1/combined_nutrition_code.rds")
+data<-readRDS("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step1/combined_nutrition_code.rds")
 nutrition<-data[,c("eid","BMI","NutritionScore","sex","age")]
 rownames(nutrition)<-nutrition$eid
-GWAS_PCs<-readRDS('/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/data/GWAS_PCs.rds')
+GWAS_PCs<-readRDS('/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/data/GWAS_PCs.rds')
 nutrition_prs<-nutrition[rownames(nutrition)%in%rownames(df),]
 rownames(GWAS_PCs)<-GWAS_PCs$eid
 PC_n<-GWAS_PCs[rownames(GWAS_PCs)%in%rownames(df),1:11]
@@ -95,6 +97,6 @@ summary(b)
 b<-lm(nutrition_prs$BMI~.,data=nutrition_prs[,c(2,6:16)])
 summary(b)
 
-saveRDS(nutrition_prs,"/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step3/nutrition_prs.rds")
+saveRDS(nutrition_prs,"/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step3/nutrition_prs.rds")
 
-saveRDS(prs,"/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step3/prs.rds")
+saveRDS(prs,"/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step3/prs.rds")
