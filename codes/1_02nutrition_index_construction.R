@@ -3,7 +3,7 @@ library(readxl)
 
 
 setwd("/rds/general/project/hda_students_data/live/Group1")
-dataframe <- readRDS('tds_final_group_1/result_data/combined_data.rds')
+dataframe <- readRDS('TDS_final_group_1/result_data/step0/combined_data.rds')
 colnames(dataframe) <- trimws(colnames(dataframe))
 
 dir.create("results_nu")
@@ -136,12 +136,12 @@ ggplot(data=data1,aes(x=NutritionScore))+geom_density(aes(col=LungCancer,fill=Lu
   geom_vline(data=mu, aes(xintercept=grp.mean, color=LungCancer),linetype="dashed")+
   labs(title="nutrition score histgram for Lung cancer type",x="Nutrition score", y = "Density")+theme_classic()
 
-ggsave("tds_final_group_1/result_graph/hist_nu.png",plot = last_plot())
+ggsave("TDS_final_group_1/result_graph/step1/hist_nu.png",plot = last_plot())
 
 
 
 qqnorm(data1$NutritionScore,plot.it = T)
-dev.copy(device = png,"tds_final_group_1/result_graph/nutrition_score_qqplot.png")
+dev.copy(device = png,"TDS_final_group_1/result_graph/step1/nutrition_score_qqplot.png")
 dev.off()
 
 
@@ -173,12 +173,12 @@ pval_adjusted=lapply(Cancers,
                        return(pval_adjusted)})
 
 pval <- data.frame(t(data.frame((pval))))
-saveRDS(pval,"tds_final_group_1/result_data/pval_nu.rds")
+saveRDS(pval,"TDS_final_group_1/result_data/step1/pval_nu.rds")
 pval_adjusted <- data.frame(t(data.frame((pval_adjusted))))
-saveRDS(pval_adjusted,"tds_final_group_1/result_data/pval_adjusted.rds")
+saveRDS(pval_adjusted,"TDS_final_group_1/result_data/step1/pval_adjusted.rds")
 par(mar=c(6,6,3,3))
 
-png("tds_final_group_1/result_graph/pval_nutrition.png")
+png("TDS_final_group_1/result_graph/step1/pval_nutrition.png")
 plot(-log(pval$pval),xaxt="n",xlab='',pch = 16,ylab = '-ln(pvalue)',col=ifelse(pval$pval<=0.05/6,'black','pink'),cex=1,ylim=c(0,200))
 points(-log(pval_adjusted$pval_adjusted),xaxt="n",xlab='',pch = 17,ylab = '-ln(pvalue)',col=ifelse(pval_adjusted$pval_adjusted<=0.05/6,'black','pink'),cex=1.2)
 abline(h=-log(0.05/6))
@@ -215,9 +215,9 @@ pval_adjusted=lapply(Biomarkers,
                        return(pval_adjusted)})
 
 pval <- data.frame(t(data.frame((pval))))
-saveRDS(pval,"tds_final_group_1/result_data/pval_nu_lin.rds")
+saveRDS(pval,"TDS_final_group_1/result_data/step1/pval_nu_lin.rds")
 pval_adjusted <- data.frame(t(data.frame((pval_adjusted))))
-saveRDS(pval_adjusted,"tds_final_group_1/result_data/pval_adjusted_lin.rds")
+saveRDS(pval_adjusted,"TDS_final_group_1/result_data/step1/pval_adjusted_lin.rds")
 
 plot(-log(pval$pval),xaxt="n",xlab='',pch = 16,ylab = '-ln(pvalue)',col=ifelse(pval$pval<=0.05/8,'black','pink'),cex=1.2,ylim=c(-1,500))
 points(-log(pval_adjusted$pval_adjusted),xaxt="n",xlab='',pch = 17,ylab = '-ln(pvalue)',col=ifelse(pval_adjusted$pval_adjusted<=0.05/8,'black','pink'),cex=1.2)
@@ -225,7 +225,7 @@ abline(h=-log(0.05/8))
 +axis(1,labels=Biomarkers,at=c(1:8),las=2)
 legend("topleft", legend=c("Not Adjusted For Smoking", "Adjusted For Smoking"),
        col="black", pch = 16:17, cex=0.8)
-png("tds_final_group_1/result_graph/pval_biomarker.png")
+png("TDS_final_group_1/result_graph/step1/pval_biomarker.png")
 dev.off()
 
 #Create Table 1
@@ -240,4 +240,4 @@ table1(as.formula(paste("~ Smoking + ", paste(colnames(data1)[c(9,60,17:21,59)],
        caption = 'Table 1. Patient Participant Demographic and Clinical Characteristics',
        render.continuous=my.render.cont, render.categorical=my.render.cat)
 
-saveRDS(data1,"tds_final_group_1/result_data/combined_nutrition_code.rds")
+saveRDS(data1,"TDS_final_group_1/result_data/step1/combined_nutrition_code.rds")

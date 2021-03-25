@@ -1,7 +1,7 @@
 library(snpStats)
 library(plyr)
 library(readr)
-setwd("/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/gwas_data/gwas_output")
+setwd("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/gwas_data/gwas_output")
 
 data<-c()
 for (i in 1:22){
@@ -13,7 +13,7 @@ for (i in 1:22){
 # read plot
 dat_csv = ldply(data, read.table,stringsAsFactors=FALSE,header = T)
 
-saveRDS(dat_csv,"/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step2/gwas.rds")
+saveRDS(dat_csv,"/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step2/gwas.rds")
 
 significant<-dat_csv[dat_csv$P<=5e-8,]
 

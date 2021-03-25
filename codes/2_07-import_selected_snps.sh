@@ -4,11 +4,12 @@ module load plink
 
 UKB=/rds/general/project/uk-biobank-2018/live/reference/sdata_12032018
 
+cd /rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step2
 for chr in $(seq 1 22)
 do
 echo $chr
 
-plink --bfile $UKB/ukb_imp_chr$chr --fam clump_39/imp.fam --extract clump_43.txt --make-bed --out clump_43/ukb_imp_chr$chr
+plink --bfile $UKB/ukb_imp_chr$chr --fam clump_snps/imp.fam --extract clump_snp.txt --make-bed --out clump_snps/ukb_imp_chr$chr
 
 done
 

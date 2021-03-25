@@ -31,7 +31,7 @@ path="/rds/general/project/hda_students_data/live/Group1"
 setwd(path)
 library(data.table)
 mydata=data.frame(fread("data/ukb26390.csv", nrows=5))
-myfields=unname(unlist(read.table("tds_final_group_1/data/extract.txt", header=FALSE)))
+myfields=unname(unlist(read.table("TDS_final_group_1/data/extract.txt", header=FALSE)))
 
 ## Extracting the column ids 
 column_id=grep("eid", colnames(mydata))
@@ -45,6 +45,6 @@ for (k in 1:length(myfields)){
 }
 
 # Extracting required columns from dataset
-extracted=data.frame(fread("/rds/general/project/hda_students_data/live/Group1/data/ukb26390.csv", select=column_id)) # Path to change!
-saveRDS(extracted, "tds_final_group_1/result_data/individual_covariates.rds")
+extracted=data.frame(fread("/rds/general/project/hda_students_data/live/Group1/data/ukb26390.csv", select=column_id)) 
+saveRDS(extracted, "TDS_final_group_1/result_data/step0/individual_covariates.rds")
 

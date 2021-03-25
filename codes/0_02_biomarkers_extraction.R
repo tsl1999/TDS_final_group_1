@@ -15,7 +15,7 @@ ukb27725_col<-data.frame(colnames(ukb27725),col_ukb)
 biomarkers<-ukb27725[,c(ukb27725_col$col_ukb%in%anno_id)]
 
 
-saveRDS(biomarkers,"/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/biomarkers.rds")
+saveRDS(biomarkers,"/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step0/biomarkers.rds")
 
 #check
 length(unique(sub("\\..*", "", colnames(biomarkers))))==31

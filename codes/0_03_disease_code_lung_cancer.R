@@ -103,7 +103,7 @@ for (d in 1:length(diseases)){
 }
 
 print(apply(mydata[,names(diseases)[1:6]],2,sum))
-saveRDS(mydata, "tds_final_group_1/result_data/disease_outcomes.rds")
+saveRDS(mydata, "TDS_final_group_1/result_data/step0/disease_outcomes.rds")
 
 
 

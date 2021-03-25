@@ -4,7 +4,7 @@
 path="/rds/general/project/hda_students_data/live/Group1"
 setwd(path)
 library(data.table)
-mydata=readRDS("tds_final_group_1/result_data/step1/combined_nutrition_code.rds")
+mydata=readRDS("TDS_final_group_1/result_data/step1/combined_nutrition_code.rds")
 rownames(mydata)<-mydata$eid
 
 
@@ -27,5 +27,5 @@ fam[ids,6]=case[ids]
 print(table(fam[,6]))
 
 
-write.table(fam, "/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step2/imp.fam", row.names=FALSE, col.names=FALSE, quote=FALSE)
+write.table(fam, "/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step2/imp.fam", row.names=FALSE, col.names=FALSE, quote=FALSE)
 

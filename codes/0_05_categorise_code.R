@@ -7,8 +7,8 @@ setwd(path)
 
 data_dictionary <- read_excel("TDS_Group-1/data_dictionary.xlsx")
 data_cat<-data.frame(data_dictionary[,c("Field ID","code ID")])
-disease_outcomes <- readRDS("/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/disease_outcomes.rds")
-merged<-readRDS("/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/merged.rds")
+disease_outcomes <- readRDS("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step0/disease_outcomes.rds")
+merged<-readRDS("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step0/merged.rds")
 #categorise-----------------------------------------------------
 data_cat$Field.ID<-paste("X",data_cat$Field.ID,sep="")
 rownames(data_cat)<-data_cat$Field.ID
@@ -90,4 +90,4 @@ dataframe$`water intake `<-ifelse(dataframe$`water intake `==-10,"Less than one"
                                                    ifelse(dataframe$`water intake `==-3,"Prefer not to answer",dataframe$`water intake `)))
 
 
-saveRDS(dataframe,"tds_final_group_1/result_data/cate_merge_disease(final).rds")
+saveRDS(dataframe,"tds_final_group_1/result_data/step0/cate_merge_disease(final).rds")

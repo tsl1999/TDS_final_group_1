@@ -4,7 +4,7 @@ library(readxl)
 
 path="/rds/general/project/hda_students_data/live/Group1"
 setwd(path)
-dataframe <- readRDS('tds_final_group_1/result_data/combined_data.rds')
+dataframe <- readRDS('TDS_final_group_1/result_data/step0/combined_data.rds')
 colnames(dataframe) <- trimws(colnames(dataframe))
 
 
@@ -91,13 +91,13 @@ data.numeric <- na.omit(data[,c(8:33)]) %>%
 ggplot(data.numeric, aes(value)) +
   geom_density() +
   facet_wrap(~variable,scales = "free")+theme_clean()
-dev.copy(device=png,'tds_final_group_1/result_graph/numeric_density.png')
+dev.copy(device=png,'TDS_final_group_1/result_graph/step1/numeric_density.png')
 
 dev.off()
 
 ggplot(data, aes(x=sugar)) +
   geom_density(aes(col=LungCancer)) 
-dev.copy(device=png,'tds_final_group_1/result_graph/sugar.png')
+dev.copy(device=png,'TDS_final_group_1/result_graph/step1/sugar.png')
 
 dev.off()
 
@@ -110,7 +110,7 @@ data.factor<- data[Names] %>%
   select_if(is.factor) 
 
 lapply(colnames(data.factor), function(var){barplot(table(data.factor[var]),main =var,las=2 )
-  a=paste0("tds_final_group_1/result_graph/",var)
+  a=paste0("TDS_final_group_1/step1/result_graph/",var)
   dev.copy(device=png, paste0(a,'.png'))
   dev.off()})
 
@@ -134,7 +134,7 @@ saveRDS(pval,"results/pval.rds")
 a<-plot(-log10(pval$pval),xaxt="n",xlab='',pch=16,ylab = '-ln(pvalue)',col=ifelse(pval$pval<=0.05/22,'black','pink'),ylim =c(0,-log(0.05/20)+30))
 a+axis(1,labels=rownames(pval),at=c(1:22),las=2)
 abline(h=-log10(0.05/22))
-dev.copy(device=png,'tds_final_group_1/result_graph/univariate_manhattenplot.png')
+dev.copy(device=png,'TDS_final_group_1/result_graph/step1/univariate_manhattenplot.png')
 
 dev.off()
 
@@ -164,5 +164,5 @@ mycor = cor(a,method = 'spearman')
 saveRDS(mycor,"tds_final_group_1/result_data/nutrients_corr.rds")
 pheatmap(mycor, cluster_rows = FALSE, cluster_cols = FALSE, border = NA,
          breaks = seq(-1, 1, length.out = 100))
-dev.copy(png,'tds_final_group_1/result_graph/nutrition_correlation_map.png')
+dev.copy(png,'TDS_final_group_1/result_graph/step1/nutrition_correlation_map.png')
 dev.off()

@@ -1,7 +1,7 @@
 #merge
 library(data.table)
 #merge biomarker and characteristics--------------
-path="/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data"
+path="/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step0"
 setwd(path)
 biomarkers<-readRDS("biomarkers.rds")
 individual_cov<-readRDS("individual_covariates.rds")
@@ -23,13 +23,4 @@ colnames(dataframe)<-sub("\\..*", "", colnames(dataframe))
 saveRDS(dataframe,"merged.rds")
 
 
-merged<-merge(new_var_no_withdraw,merged_new,by="eid",no.dups = FALSE)
-saveRDS(merged,"data/merged_new_var_acc.rds")
 
-
-merged_new_var<-merge(merged_new_var_acc,merged_only00,by="eid",no.dups = FALSE)
-saveRDS(merged_new_var,"data/merged_new_00.rds")
-
-new_df <- merged_new_var %>%
-  select(eid, `Lung Cancer`,`Colon Cancer`,`Stomach Cancer`,`Breast Cancer`,`Other Cancer`,accidents, everything())
-saveRDS(new_df,"data/merged_new_00.rds")

@@ -1,6 +1,6 @@
 library(snpStats)
 setwd("clump")
-setwd("/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step2/clump_snps")
+setwd("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step2/clump_snps")
 
 # Extract SNP names
 bim=read.table("ukb_imp_merged.bim", stringsAsFactors=FALSE)
@@ -23,11 +23,11 @@ fam=read.table("imp.fam")
 rownames(genodata)=fam[,1]
 
 
-data<-readRDS("/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step1/combined_nutrition_code.rds")
+data<-readRDS("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step1/combined_nutrition_code.rds")
 
 rownames(data)<-data$eid
 #select those have nutrition score
 gene_data<-genodata[rownames(genodata)%in%rownames(data),]
 
 # Save genetic data
-saveRDS(gene_data, "/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step2/imp_clump_full_obs.rds")
+saveRDS(gene_data, "/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step2/imp_clump_full_obs.rds")

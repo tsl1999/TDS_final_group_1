@@ -8,9 +8,9 @@ cd /rds/general/project/hda_students_data/live/Group1/UKB_genetic_data_scripts
 module load plink
 
 geno_path=/rds/general/project/uk-biobank-2018/live/reference/sdata_12032018
-fam_path=/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step2
-data_path=/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/result_data/step2
-results_path=/rds/general/project/hda_students_data/live/Group1/tds_final_group_1/gwas_data
+fam_path=/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step2
+data_path=/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step2
+results_path=/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/gwas_data
 
 
 
