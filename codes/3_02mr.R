@@ -25,6 +25,9 @@ ggplot(data=mr_prs)+geom_density(aes(x=prs,color=LungCancer,fill=LungCancer),alp
 #prs and lung cancer
 e<-glm(LungCancer~ prs+.,data=mr_prs[,c(7,12:22)],family="binomial")
 summary(e)#not significant, coefficient 0.013
+exp(confint(e))
+
+
 boxplot(mr_prs$prs~mr_prs$LungCancer)
 t.test(mr_prs$prs,mr_prs$LungCancer)#significant mean difference
 mr_prs$LungCancer<-ifelse(mr_prs$LungCancer==0,"no","yes")

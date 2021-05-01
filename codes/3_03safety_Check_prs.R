@@ -6,7 +6,7 @@ data1<-readRDS("/rds/general/project/hda_students_data/live/Group1/TDS_final_gro
 prs<-readRDS("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step3/prs.rds")
 GWAS_PCs<-readRDS('/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/data/GWAS_PCs.rds')
 no_na_nu<-data1
-mr<-no_na_nu[,c("eid","BMI","NutritionScore","sex","Smoking","age","LungCancer","alcohol_intake_frequency","ColonCancer","StomachCancer","BreastCancer","HDL_Cholesterol")]
+mr<-no_na_nu[,c("eid","BMI","NutritionScore","sex","Smoking","age","LungCancer","alcohol_intake_frequency","ColonCancer","StomachCancer","BreastCancer","HDL_Cholesterol","accidents")]
 rownames(mr)<-mr$eid
 mr_prs<-mr[rownames(mr)%in%data1$eid,]
 rownames(GWAS_PCs)<-GWAS_PCs$eid
@@ -63,13 +63,14 @@ summary(e)#stats significant but low r squred, with pcs, 0.6%
 cor(nutrition_prs$HDL_Cholesterol,nutrition_prs$NutritionScore,use="complete.obs")#0.14
 e<-lm(mr_prs$NutritionScore~mr_prs$HDL_Cholesterol+mr_prs$age+mr_prs$sex+mr_prs$Smoking)
 summary(e)#with smoking 9%, without 7%, stats significant
+confint(e)
 
 #prs and HDL cholesterol
 
 cor(nutrition_prs$HDL_Cholesterol,nutrition_prs$prs,use="complete.obs")#-0.016
 e<-lm(HDL_Cholesterol~prs+.,data=mr_prs[,c(12:23)])
 summary(e)#low r squred but stats significant prs
-
+confint(e)
 #prs and lung cancer
 e<-glm(LungCancer~ prs+.,data=mr_prs[,c(7,13:23)],family="binomial")
 summary(e)#not significant
@@ -81,8 +82,9 @@ t.test(mr_prs$prs,mr_prs$LungCancer)#significant mean difference
 e<-glm(BreastCancer~ prs+.,data=mr_prs[,c(11,13:23)],family="binomial")
 summary(e)#significant prs, with or without pcs
 require(DescTools)
-Cstat(e)#0.800, 0.713 without smoking
+Cstat(e)
 summary(e)
+exp(confint(e))
 
 t.test(mr_prs$prs,mr_prs$BreastCancer)#significant mean difference
 
@@ -91,6 +93,15 @@ boxplot(mr_prs$prs~mr_prs$BreastCancer)
 #stomach
 e<-glm(StomachCancer~ prs+.,data=mr_prs[,c(10,13:23)],family="binomial")
 summary(e)#not significant
+exp(confint(e))
 
 boxplot(mr_prs$prs~mr_prs$StomachCancer)
 t.test(mr_prs$prs,mr_prs$StomachCancer)
+
+
+#accidents
+e<-glm(accidents~ prs+.,data=mr_prs[,c(13:24)],family="binomial")
+summary(e)
+exp(coef(e))
+exp(confint(e))
+
