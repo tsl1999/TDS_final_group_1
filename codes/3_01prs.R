@@ -90,13 +90,14 @@ cor(nutrition_prs$BMI,nutrition_prs$prs,use="complete.obs")
 
 b<-lm(nutrition_prs$NutritionScore~.,data=nutrition_prs[,6:16])
 summary(b)
+confint(b)
 #significant prs vs nutrition score
 
 
 #BMI vs prs, significant association
 b<-lm(nutrition_prs$BMI~.,data=nutrition_prs[,c(2,6:16)])
 summary(b)
-
+confint(b)
 saveRDS(nutrition_prs,"/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step3/nutrition_prs.rds")
 
 saveRDS(prs,"/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step3/prs.rds")

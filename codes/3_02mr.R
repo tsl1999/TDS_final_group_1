@@ -18,6 +18,9 @@ rownames(mr_prs)<-mr_prs$eid
 
 mr_prs$LungCancer<-ifelse(mr_prs$LungCancer=="no",0,1)
 
+hist(prs$prs)
+ggplot(data=mr_prs)+geom_density(aes(x=prs,color=LungCancer,fill=LungCancer),alpha=0.5)+
+  theme_clean()
 
 #prs and lung cancer
 e<-glm(LungCancer~ prs+.,data=mr_prs[,c(7,12:22)],family="binomial")
