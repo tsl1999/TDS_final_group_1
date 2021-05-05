@@ -137,7 +137,6 @@ plot(-log10(pval$pval),xaxt="n",xlab='',pch=16,lwd=2,ylab = '-ln(pvalue)',col=if
 abline(h=-log10(0.05/22),lty=2)
 axis(1,labels=rownames(pval),at=c(1:22),las=2,)
 
-ggplot(data=pval)+geom_po
 
 dev.copy(device=png,'TDS_final_group_1/result_graph/step1/univariate_manhattenplot.png')
 
@@ -167,7 +166,6 @@ a=data.frame(a)
 a=drop_na(a)
 mycor = cor(a,method = 'spearman')
 saveRDS(mycor,"tds_final_group_1/result_data/nutrients_corr.rds")
-pheatmap(mycor, cluster_rows = FALSE, cluster_cols = FALSE, border = NA,
-         breaks = seq(-1, 1, length.out = 100))
+heatmap(mycor)
 dev.copy(png,'TDS_final_group_1/result_graph/step1/nutrition_correlation_map.png')
 dev.off()

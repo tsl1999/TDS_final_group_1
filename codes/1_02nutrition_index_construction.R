@@ -179,8 +179,10 @@ saveRDS(pval_adjusted,"TDS_final_group_1/result_data/step1/pval_adjusted.rds")
 par(mar=c(8,4,3,3))
 
 
+
+
 png("TDS_final_group_1/result_graph/step1/pval_nutrition.png")
-plot(-log(pval$pval),xaxt="n",xlab='',pch = 16,ylab = '-ln(pvalue)',col=ifelse(pval$pval<=0.05/6,'black','pink'),cex=0.8,ylim=c(0,300),main="p values for disease outcomes")
+plot(-log(pval$pval),xaxt="n",xlab='',pch = 16,ylab = '-ln(pvalue)',col=ifelse(pval$pval<=0.05/6,'black','pink'),cex=0.8,ylim=c(0,800),main="p values for disease outcomes")
 points(-log(pval_adjusted$pval_adjusted),xaxt="n",xlab='',pch = 17,ylab = '-ln(pvalue)',col=ifelse(pval_adjusted$pval_adjusted<=0.05/6,'black','pink'),cex=1.2)
 abline(h=-log(0.05/6),lty=2)
 axis(1,labels=Cancers,at=c(1:6),las=2)
@@ -227,10 +229,10 @@ saveRDS(pval_adjusted,"TDS_final_group_1/result_data/step1/pval_adjusted_lin.rds
 pval$pval<-ifelse(pval$pval==0,1e-314,pval$pval)
 pval_adjusted$pval_adjusted<-ifelse(pval_adjusted$pval_adjusted==0,1e-314,pval_adjusted$pval_adjusted)
 
-plot(-log(pval$pval),xaxt="n",xlab='',pch = 16,ylab = '-ln(pvalue)',col=ifelse(pval$pval<=0.05/14,'black','pink'),cex=0.8,ylim=c(-1,800),main="p value of biomarkers")
-points(-log(pval_adjusted$pval_adjusted),xaxt="n",xlab='',pch = 17,ylab = '-ln(pvalue)',col=ifelse(pval_adjusted$pval_adjusted<=0.05/14,'black','pink'),cex=1)
-abline(h=-log(0.05/14),lty=2)
-+axis(1,labels=Biomarkers,at=c(1:14),las=2)
+plot(-log(pval$pval),xaxt="n",xlab='',pch = 16,ylab = '-ln(pvalue)',col=ifelse(pval$pval<=0.05/8,'black','pink'),cex=0.8,ylim=c(-1,800),main="p value of biomarkers",xlim=c(1,8))
+points(-log(pval_adjusted$pval_adjusted),xaxt="n",xlab='',pch = 17,ylab = '-ln(pvalue)',col=ifelse(pval_adjusted$pval_adjusted<=0.05/8,'black','pink'),cex=1)
+abline(h=-log(0.05/8),lty=2)
++axis(1,labels=Biomarkers,at=c(1:8),las=2)
 legend("topright", legend=c("Not Adjusted For Smoking", "Adjusted For Smoking"),
        col="black", pch = 16:17, cex=0.7)
 png("TDS_final_group_1/result_graph/step1/pval_biomarker.png")
