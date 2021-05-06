@@ -16,12 +16,13 @@ mr_prs<-merge(mr_prs,PC_n,by="eid")
 mr_prs<-merge(mr_prs,prs,by="eid")
 rownames(mr_prs)<-mr_prs$eid
 
-mr_prs$LungCancer<-ifelse(mr_prs$LungCancer=="no",0,1)
+
 
 hist(prs$prs)
 ggplot(data=mr_prs)+geom_density(aes(x=prs,color=LungCancer,fill=LungCancer),alpha=0.5)+
   theme_clean()
 
+mr_prs$LungCancer<-ifelse(mr_prs$LungCancer=="no",0,1)
 #prs and lung cancer
 e<-glm(LungCancer~ prs+.,data=mr_prs[,c(7,12:22)],family="binomial")
 summary(e)#not significant, coefficient 0.013
@@ -30,6 +31,5 @@ exp(confint(e))
 
 boxplot(mr_prs$prs~mr_prs$LungCancer)
 t.test(mr_prs$prs,mr_prs$LungCancer)#significant mean difference
-mr_prs$LungCancer<-ifelse(mr_prs$LungCancer==0,"no","yes")
 
-ggplot(data=mr_prs,aes(x=prs))+geom_density(aes(col=LungCancer,fill=LungCancer))+theme_clean()#overlapped prs for cases and non cases
+

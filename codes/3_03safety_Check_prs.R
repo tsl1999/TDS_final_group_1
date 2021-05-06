@@ -112,16 +112,7 @@ boxplot(mr_prs$prs~mr_prs$StomachCancer)
 t.test(mr_prs$prs,mr_prs$StomachCancer)
 
 
-#11.nutrition score with accidents---------------------------------------------
-
-e<-glm(accidents~ mr_prs$sex+mr_prs$age+mr_prs$Smoking+mr_prs$NutritionScore,data=mr_prs[,c(7,13,14:23)],family="binomial")
-summary(e)
-
-Cstat(e)
-exp(coef(e))
-exp(confint(e))
-
-#12. prs with accidents -----------------------------------------------------
+#11. prs with accidents -----------------------------------------------------
 e<-glm(accidents~ prs+.,data=mr_prs[,c(13:24)],family="binomial")
 summary(e)
 exp(coef(e))

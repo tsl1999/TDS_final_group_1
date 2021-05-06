@@ -1,5 +1,6 @@
 library(tidyverse)
 library(readxl)
+library(pheatmap)
 
 
 path="/rds/general/project/hda_students_data/live/Group1"
@@ -110,7 +111,7 @@ data.factor<- data[Names] %>%
   select_if(is.factor) 
 
 lapply(colnames(data.factor), function(var){barplot(table(data.factor[var]),main =var,las=2 )
-  a=paste0("TDS_final_group_1/step1/result_graph/",var)
+  a=paste0("TDS_final_group_1/result_graph/step1/",var)
   dev.copy(device=png, paste0(a,'.png'))
   dev.off()})
 
@@ -166,6 +167,7 @@ a=data.frame(a)
 a=drop_na(a)
 mycor = cor(a,method = 'spearman')
 saveRDS(mycor,"tds_final_group_1/result_data/nutrients_corr.rds")
-heatmap(mycor)
+pheatmap(mycor,cluster_rows = FALSE, cluster_cols = FALSE, border = NA,
+         breaks = seq(-1, 1, length.out = 100))
 dev.copy(png,'TDS_final_group_1/result_graph/step1/nutrition_correlation_map.png')
 dev.off()

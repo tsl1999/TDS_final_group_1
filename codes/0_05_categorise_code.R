@@ -90,4 +90,4 @@ dataframe$`water intake `<-ifelse(dataframe$`water intake `==-10,"Less than one"
                                                    ifelse(dataframe$`water intake `==-3,"Prefer not to answer",dataframe$`water intake `)))
 
 
-saveRDS(dataframe,"tds_final_group_1/result_data/step0/cate_merge_disease(final).rds")
+saveRDS(dataframe,"TDS_final_group_1/result_data/step0/cate_merge_disease(final).rds")

@@ -1,5 +1,6 @@
 library(tidyverse)
 library(readxl)
+library(table1)
 
 
 setwd("/rds/general/project/hda_students_data/live/Group1")
@@ -182,8 +183,8 @@ par(mar=c(8,4,3,3))
 
 
 png("TDS_final_group_1/result_graph/step1/pval_nutrition.png")
-plot(-log(pval$pval),xaxt="n",xlab='',pch = 16,ylab = '-ln(pvalue)',col=ifelse(pval$pval<=0.05/6,'black','pink'),cex=0.8,ylim=c(0,800),main="p values for disease outcomes")
-points(-log(pval_adjusted$pval_adjusted),xaxt="n",xlab='',pch = 17,ylab = '-ln(pvalue)',col=ifelse(pval_adjusted$pval_adjusted<=0.05/6,'black','pink'),cex=1.2)
+plot(-log(pval$pval),xaxt="n",xlab='',pch = 16,ylab = '-ln(pvalue)',col=ifelse(pval$pval<=0.01/6,'black','pink'),cex=0.8,ylim=c(0,800),main="p values for disease outcomes")
+points(-log(pval_adjusted$pval_adjusted),xaxt="n",xlab='',pch = 17,ylab = '-ln(pvalue)',col=ifelse(pval_adjusted$pval_adjusted<=0.01/6,'black','pink'),cex=1.2)
 abline(h=-log(0.05/6),lty=2)
 axis(1,labels=Cancers,at=c(1:6),las=2)
 legend("topright", legend=c("Not Adjusted For Smoking", "Adjusted For Smoking"),
@@ -233,7 +234,7 @@ plot(-log(pval$pval),xaxt="n",xlab='',pch = 16,ylab = '-ln(pvalue)',col=ifelse(p
 points(-log(pval_adjusted$pval_adjusted),xaxt="n",xlab='',pch = 17,ylab = '-ln(pvalue)',col=ifelse(pval_adjusted$pval_adjusted<=0.05/8,'black','pink'),cex=1)
 abline(h=-log(0.05/8),lty=2)
 +axis(1,labels=Biomarkers,at=c(1:8),las=2)
-legend("topright", legend=c("Not Adjusted For Smoking", "Adjusted For Smoking"),
+legend("bottomright", legend=c("Not Adjusted For Smoking", "Adjusted For Smoking"),
        col="black", pch = 16:17, cex=0.7)
 png("TDS_final_group_1/result_graph/step1/pval_biomarker.png")
 dev.off()
@@ -246,7 +247,7 @@ my.render.cont <- function(x) {
 my.render.cat <- function(x) {
   c("", sapply(stats.default(x), function(y) with(y,
                                                   sprintf("%d (%0.0f %%)", FREQ, PCT))))}
-table1(as.formula(paste("~ Smoking + ", paste(colnames(data1)[c(9,60,17:21,59)], collapse=" + "),paste("|LungCancer"))), data=data1, overall="Total",
+table1(as.formula(paste("~ Smoking + ", paste(colnames(data1)[c(9,16:21,59)], collapse=" + "),paste("|LungCancer"))), data=data1, overall="Total",
        caption = 'Table 1. Patient Participant Demographic and Clinical Characteristics',
        render.continuous=my.render.cont, render.categorical=my.render.cat)
 

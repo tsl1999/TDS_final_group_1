@@ -1,5 +1,4 @@
 library(snpStats)
-setwd("clump")
 setwd("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step2/clump_snps")
 
 # Extract SNP names

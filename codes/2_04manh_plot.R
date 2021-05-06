@@ -1,6 +1,8 @@
 library(snpStats)
 library(plyr)
 library(readr)
+library(RColorBrewer)
+library(qqman)
 setwd("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/gwas_data/gwas_output")
 
 data<-c()
@@ -21,11 +23,11 @@ gwas.dat<-significant[is.na(significant$CHR)==F,]#270
 
 
 #ggplot
-# Load the library
-library(qqman)
+
+
 
 # Make the Manhattan plot on the gwasResults dataset
-library(RColorBrewer)
+
 mypal = brewer.pal(n = 12, name = "Paired")
 colors = colorRampPalette(c("navy", "blue", "skyblue"))(22)
 colors = colorRampPalette(mypal)(22)

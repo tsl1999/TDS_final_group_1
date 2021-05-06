@@ -1,4 +1,5 @@
 #prs construction
+library(data.table)
 setwd('/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step2')
 #weight
 iv.clump<-readRDS("clump.rds")
@@ -17,23 +18,23 @@ df<-data.frame(df)
 
 
 
-#check for weight names and col names
+#check for weight names and col names------------------
 weight$rsid==colnames(df)
 df<-as.matrix(df)
 w<-as.vector(weight$BETA)
 
 
 
-library(data.table)
 
 
-#snp call rate, threshold 1%
+
+#snp call rate, threshold 1%----------------
 
 apply(df, 2,function(x){sum(is.na(x)==T)/length(rownames(df))})
 
 
 
-#sample call rate, threshold 1%
+#sample call rate, threshold 1%-----------------------
 sample_call<-apply(df, 1,function(x){sum(is.na(x)==T)/length(rownames(df))})
 sample_call<-data.frame(sample_call)
 sample_call_n<-sample_call[,"sample_call"<=0.01]#0
@@ -60,7 +61,7 @@ sum(is.na(prs$prs)==T)#2481
 df<-data.frame(df)
 rownames(prs)<-rownames(prs)
 
-#check for matrix multiplication
+#check for matrix multiplication------------------
 a<-df[1,]
 a<-as.numeric(t(a))
 b<-a*w
@@ -69,9 +70,9 @@ sum(b)#the same as prs on the first row
 
 
 
-#prs and nutrition correlation check
+#prs and nutrition correlation check--------------------------------------------
 data<-readRDS("/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step1/combined_nutrition_code.rds")
-nutrition<-data[,c("eid","BMI","NutritionScore","sex","age")]
+nutrition<-data[,c("eid","BMI","NutritionScore","sex","age",'Smoking','qualification','alcohol_intake_frequency','LungCancer')]
 rownames(nutrition)<-nutrition$eid
 GWAS_PCs<-readRDS('/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/data/GWAS_PCs.rds')
 nutrition_prs<-nutrition[rownames(nutrition)%in%rownames(df),]
@@ -86,16 +87,48 @@ cor(nutrition_prs$BMI,nutrition_prs$prs,use="complete.obs")
 
 
 
+# prs vs nutrition score----------------
 
-
-b<-lm(nutrition_prs$NutritionScore~.,data=nutrition_prs[,6:16])
+b<-lm(nutrition_prs$NutritionScore~.,data=nutrition_prs[,10:20])
 summary(b)
 confint(b)
-#significant prs vs nutrition score
+
+#check for smoking------------------------
+nutrition_prs$Smoking<-as.factor(nutrition_prs$Smoking)
+nutrition_prs$Smoking<-relevel(nutrition_prs$Smoking,1)
+
+b<-lm(nutrition_prs$prs ~nutrition_prs$Smoking+.,data=nutrition_prs[,10:20])
+
+summary(b)
+confint(b)
+
+#qualification----------------------------------------
+b<-lm(nutrition_prs$prs ~nutrition_prs$qualification+.,data=nutrition_prs[,10:20])
+
+summary(b)
+confint(b)
+
+
+#alcohol----------------------------------------
+b<-lm(nutrition_prs$prs ~nutrition_prs$alcohol_intake_frequency+.,data=nutrition_prs[,10:20])
+c<-lm(nutrition_prs$prs ~.,data=nutrition_prs[,9:19])
+anova(b,c)
+summary(b)
+confint(b)
+
+#age----------------------------------------
+b<-lm(nutrition_prs$prs ~nutrition_prs$age+.,data=nutrition_prs[,10:20])
+summary(b)
+confint(b)
+
+#sex----------------------------------------
+b<-lm(nutrition_prs$prs ~nutrition_prs$sex+.,data=nutrition_prs[,10:20])
+summary(b)
+confint(b)
 
 
 #BMI vs prs, significant association
-b<-lm(nutrition_prs$BMI~.,data=nutrition_prs[,c(2,6:16)])
+b<-lm(nutrition_prs$BMI~.,data=nutrition_prs[,c(2,10:20)])
 summary(b)
 confint(b)
 saveRDS(nutrition_prs,"/rds/general/project/hda_students_data/live/Group1/TDS_final_group_1/result_data/step3/nutrition_prs.rds")
