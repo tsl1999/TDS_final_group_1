@@ -200,9 +200,9 @@ print("stage5")
 Biomarkers <- colnames(data1[c(8:15)])
 pval=lapply(Biomarkers,
             function(var) {
-              formula1    <- as.formula(paste(var, " ~ age + ethnic_background + sex + qualification + alcohol_intake_frequency"))
+              formula1    <- as.formula(paste(var, " ~ age+ sex"))
               res.logist1 <- lm(formula1, data = data1)
-              formula2    <- as.formula(paste(var, " ~ age + ethnic_background + sex + qualification + alcohol_intake_frequency + NutritionScore"))
+              formula2    <- as.formula(paste(var, " ~ age+ sex  + NutritionScore"))
               res.logist2 <- lm(formula2, data = data1)
               pval=c(anova(res.logist1,res.logist2,test="Chisq")$'Pr(>Chi)'[2])
               names(pval)='pval'
@@ -210,9 +210,9 @@ pval=lapply(Biomarkers,
 
 pval_adjusted=lapply(Biomarkers,
                      function(var) {
-                       formula3    <- as.formula(paste(var, " ~ age + ethnic_background + sex + qualification + alcohol_intake_frequency + Smoking"))
+                       formula3    <- as.formula(paste(var, " ~ age + sex + Smoking"))
                        res.logist3 <- lm(formula3, data = data1)
-                       formula4    <- as.formula(paste(var, " ~ age + ethnic_background + sex + qualification + alcohol_intake_frequency + Smoking + NutritionScore"))
+                       formula4    <- as.formula(paste(var, " ~ age + sex + Smoking + NutritionScore"))
                        res.logist4 <- lm(formula4, data = data1)
                        pval_adjusted=c(anova(res.logist3,res.logist4,test="Chisq")$'Pr(>Chi)'[2])
                        names(pval_adjusted)='pval_adjusted'
