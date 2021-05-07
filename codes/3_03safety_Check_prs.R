@@ -48,6 +48,7 @@ e<-lm(mr_prs$NutritionScore~mr_prs$BMI+mr_prs$age+mr_prs$sex+mr_prs$Smoking)
 summary(e)#adjust for smoking, 9%, not 1%
 #both are significant
 
+
 #4. prs and BMI ----------------------------------------------
 
 cor(nutrition_prs$prs,nutrition_prs$BMI,use="complete.obs")#-0.003

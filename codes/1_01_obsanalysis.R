@@ -84,7 +84,6 @@ data$LungCancer <- as.factor(data$LungCancer)
 
 #Numeric variables
 data.numeric <- na.omit(data[,c(8:33)]) %>%
-  as_data_frame() %>%
   select_if(is.numeric) %>%
   gather(key = "variable", value = "value")
 
